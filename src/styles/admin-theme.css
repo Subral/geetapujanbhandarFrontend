@@ -1,0 +1,290 @@
+/* ============================================================
+   SACRED HERITAGE — Admin Console design tokens
+   Ported from stitch_geeta_pujan_bhandar_redesign (Round 1)
+   Source screens: admin_dashboard, order_management,
+                   inventory_management, analytics_reports_animated_dashboard
+
+   SCOPING: every token and utility below is namespaced under
+   `.admin-shell` (mounted once, in AdminLayout) so it can never
+   collide with the storefront's own design tokens when that gets
+   built — the two systems use the same semantic names (primary,
+   surface, on-surface…) for different hex values on purpose,
+   exactly like two brand-consistent but distinct sub-brands.
+   Do not hoist any of these variables into `:root`.
+   ============================================================ */
+
+/* Be Vietnam Pro is admin-only; Playfair Display is already
+   loaded globally by index.css and is reused here for headlines.
+   Material Symbols Outlined is the icon font used as
+   `<span className="material-symbols-outlined">icon_name</span>`
+   throughout every admin file (AdminLayout, AdminDashboard,
+   AdminOrders, AdminAnalytics, OrderDetailDrawer) — without this
+   import those spans render as literal icon-name text. */
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=block');
+
+.admin-shell {
+  font-family: 'Be Vietnam Pro', sans-serif;
+  --radius: 0.75rem; /* explicit re-assertion — never inherit a radius override from an ancestor scope */
+
+  /* ---- Sacred Heritage color tokens ---- */
+  /* Stored as space-separated RGB channels (not hex) so Tailwind's
+     opacity-modifier syntax works on them via tailwind.config.js's
+     `rgb(var(--adm-x) / <alpha-value>)` pattern — the same technique
+     this project already uses for its shadcn/ui tokens in index.css.
+     The designs lean on modifiers like `bg-primary-container/10` and
+     `border-primary/40` throughout; plain hex custom properties can't
+     support that syntax, so channel triples are the only faithful way
+     to port them.
+
+     NOTE: the source DESIGN.md's own prose (primary #E53935) disagreed
+     with its frontmatter/token block (primary #b7131a) — the same
+     mismatch found and resolved in the storefront DESIGN.md during the
+     redesign rounds. Resolved the same way here: #E53935 is canonical,
+     matching AdminLayout.js's existing brand red and the storefront. */
+  --adm-primary: 229 57 53;
+  --adm-on-primary: 255 255 255;
+  --adm-primary-container: 219 50 47;
+  --adm-on-primary-container: 255 251 255;
+
+  --adm-secondary: 115 92 0;
+  --adm-on-secondary: 255 255 255;
+  --adm-secondary-container: 254 214 91;
+  --adm-on-secondary-container: 116 92 0;
+
+  --adm-tertiary: 101 90 76;
+  --adm-on-tertiary: 255 255 255;
+  --adm-tertiary-container: 126 115 99;
+  --adm-tertiary-fixed: 239 224 205;
+
+  --adm-error: 186 26 26;
+  --adm-on-error: 255 255 255;
+  --adm-error-container: 255 218 214;
+  --adm-on-error-container: 147 0 10;
+
+  --adm-background: 255 248 246;
+  --adm-on-background: 34 26 22;
+  --adm-surface: 255 248 246;
+  --adm-surface-dim: 231 215 208;
+  --adm-surface-bright: 255 248 246;
+  --adm-surface-container-lowest: 255 255 255;
+  --adm-surface-container-low: 255 241 235;
+  --adm-surface-container: 251 234 228;
+  --adm-surface-container-high: 246 229 222;
+  --adm-surface-container-highest: 240 223 217;
+  --adm-surface-variant: 240 223 217;
+  --adm-on-surface: 34 26 22;
+  --adm-on-surface-variant: 91 64 61;
+
+  --adm-outline: 144 111 108;
+  --adm-outline-variant: 228 190 185;
+  --adm-inverse-surface: 56 46 42;
+  --adm-inverse-on-surface: 254 237 231;
+
+  background-color: rgb(var(--adm-background));
+  color: rgb(var(--adm-on-surface));
+}
+
+/* ---- Font-role utilities (kept 1:1 with Stitch's font-* classes) ---- */
+.admin-shell .font-headline-xl { font-family: 'Playfair Display', serif; font-weight: 700; letter-spacing: -0.02em; }
+.admin-shell .font-headline-lg { font-family: 'Playfair Display', serif; font-weight: 700; }
+.admin-shell .font-headline-md { font-family: 'Playfair Display', serif; font-weight: 600; }
+.admin-shell .font-headline-sm { font-family: 'Playfair Display', serif; font-weight: 600; }
+.admin-shell .font-body-lg,
+.admin-shell .font-body-md,
+.admin-shell .font-body-sm,
+.admin-shell .font-label-md,
+.admin-shell .font-label-sm { font-family: 'Be Vietnam Pro', sans-serif; }
+
+/* ============================================================
+   MATERIAL SYMBOLS — used for every icon across all four screens
+   ============================================================ */
+.admin-shell .material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  vertical-align: middle;
+}
+.admin-shell .material-symbols-outlined.fill {
+  font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+/* ============================================================
+   WARM SHADOW — DESIGN.md specifies this ("Sunlight Shadows": low
+   opacity, high blur, warm tint) but the exported HTML referenced
+   a `warm-shadow` class that was never defined anywhere in the
+   source files, so every KPI card silently rendered with NO shadow
+   at all. Implemented here per the DESIGN.md spec rather than
+   ported as a no-op.
+   ============================================================ */
+.admin-shell .warm-shadow {
+  box-shadow: 0 10px 30px -5px rgba(183, 19, 26, 0.08),
+              0 4px 6px -2px rgba(183, 19, 26, 0.05);
+}
+.admin-shell .warm-shadow-hover {
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+.admin-shell .warm-shadow-hover:hover {
+  box-shadow: 0 8px 24px rgba(183, 19, 26, 0.08), 0 4px 8px rgba(183, 19, 26, 0.04);
+  transform: translateY(-2px);
+}
+
+/* Literal Temple Gold top accent — category_management, offers_management,
+   banner_management all use a colored top border as a card accent, but
+   each picked a slightly different source (a secondary-fixed-dim
+   variable, a literal hex, a component-specific class). Consolidated
+   into one reusable utility since it's the same visual idea everywhere. */
+.admin-shell .devotional-border {
+  border-top: 2px solid #d4af37;
+}
+
+/* ============================================================
+   GLASS CARD — analytics_reports_animated_dashboard
+   ============================================================ */
+.admin-shell .glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(228, 190, 185, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.admin-shell .sacred-gradient {
+  background: linear-gradient(135deg, #fff8f6 0%, #fbeae4 100%);
+}
+
+/* ============================================================
+   ENTRANCE ANIMATION — staggered fade-up on page load
+   analytics_reports_animated_dashboard
+   ============================================================ */
+@keyframes admFadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.admin-shell .animate-fade-up {
+  opacity: 0;
+  animation: admFadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+.admin-shell .delay-100 { animation-delay: 100ms; }
+.admin-shell .delay-200 { animation-delay: 200ms; }
+.admin-shell .delay-300 { animation-delay: 300ms; }
+.admin-shell .delay-400 { animation-delay: 400ms; }
+.admin-shell .delay-500 { animation-delay: 500ms; }
+
+/* ============================================================
+   KPI CARD HOVER — lift + shadow + accent border glow
+   analytics_reports_animated_dashboard
+   ============================================================ */
+.admin-shell .kpi-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.admin-shell .kpi-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  border-color: rgba(183, 19, 26, 0.2);
+}
+
+/* ============================================================
+   PROGRESS BAR FILL — Popular Categories, analytics dashboard
+   Width itself is set inline per-instance (data-driven); this
+   only owns the fill animation.
+   ============================================================ */
+@keyframes admSlideRight {
+  from { width: 0; }
+}
+.admin-shell .animate-progress {
+  animation: admSlideRight 1s ease-out forwards;
+}
+
+/* ============================================================
+   MICRO-INTERACTIONS — header icons
+   analytics_reports_animated_dashboard
+   ============================================================ */
+@keyframes admPulseSubtle {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.1); }
+}
+.admin-shell .hover-pulse:hover span {
+  animation: admPulseSubtle 1s infinite ease-in-out;
+}
+.admin-shell .hover-spin:hover span {
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: rotate(180deg);
+}
+
+/* ============================================================
+   BAR CHART — Sales Trends Over Time
+   analytics_reports_animated_dashboard
+   ============================================================ */
+.admin-shell .bar-segment:hover {
+  filter: brightness(1.1);
+  transform: scaleX(1.05);
+}
+
+/* ============================================================
+   DONUT CHART — Customer Demographics
+   analytics_reports_animated_dashboard
+   ============================================================ */
+.admin-shell .donut-segment {
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+}
+.admin-shell .donut-segment:hover {
+  stroke-width: 5;
+  filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.1));
+}
+
+/* ============================================================
+   INSIGHT CARDS — Performance Insights list
+   analytics_reports_animated_dashboard
+   ============================================================ */
+.admin-shell .insight-card {
+  transition: all 0.3s ease-in-out;
+}
+.admin-shell .insight-card:hover {
+  background-color: rgba(255, 255, 255, 0.9);
+  transform: translateX(8px);
+  box-shadow: -4px 0 0 0 currentColor;
+}
+
+/* ============================================================
+   SCROLLBAR — order_management, inventory_management
+   ============================================================ */
+.admin-shell .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+.admin-shell .custom-scrollbar::-webkit-scrollbar-track { background: #fff1eb; }
+.admin-shell .custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #e4beb9;
+  border-radius: 10px;
+}
+.admin-shell .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #906f6c; }
+
+/* ============================================================
+   ROW PRESS — admin_dashboard ("scale-[0.99]" bounce on click,
+   originally applied for 100ms via setTimeout+classList in
+   vanilla JS; reimplemented as a plain CSS active state so it
+   works the same way without an event-listener-per-row effect)
+   ============================================================ */
+.admin-shell .row-interactive {
+  transition: transform 0.1s ease-out;
+}
+.admin-shell .row-interactive:active {
+  transform: scale(0.99);
+}
+
+/* ============================================================
+   REDUCED MOTION — every animation above respects this
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .admin-shell .animate-fade-up,
+  .admin-shell .animate-progress,
+  .admin-shell .hover-pulse:hover span,
+  .admin-shell .hover-spin:hover span,
+  .admin-shell .kpi-card,
+  .admin-shell .bar-segment,
+  .admin-shell .donut-segment,
+  .admin-shell .insight-card,
+  .admin-shell .row-interactive {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transform: none !important;
+  }
+  .admin-shell .animate-fade-up { opacity: 1; }
+}

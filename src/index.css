@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Manrope:wght@400;500;600&display=swap');
+@import './styles/storefront-theme.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    margin: 0;
+    font-family: 'Manrope', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+@layer base {
+    :root {
+        /* Updated to the precise "Sacred Premium" palette from the
+           finalized storefront DESIGN.md (Kumkum Red / Ivory / near-black
+           text). Previously these were close approximations (e.g.
+           primary was hsl(4 90% 58%), a slightly different red) —
+           now exact, computed directly from the canonical hex values.
+           Every shadcn component (Button, Input, Card, etc.) already
+           reads these vars via tailwind.config.js, so this one change
+           corrects their color everywhere they're used, with no JSX
+           changes required. */
+        --background: 34.3 53.8% 97.5%;
+        --foreground: 60.0 3.7% 10.6%;
+        --card: 0 0% 100%;
+        --card-foreground: 60.0 3.7% 10.6%;
+        --popover: 0 0% 100%;
+        --popover-foreground: 60.0 3.7% 10.6%;
+        --primary: 1.4 77.2% 55.3%;
+        --primary-foreground: 0 0% 100%;
+        --secondary: 30.0 16.7% 92.9%;
+        --secondary-foreground: 30 35% 28%;
+        --muted: 34.3 28.0% 95.1%;
+        --muted-foreground: 30 15% 55%;
+        --accent: 45.9 64.6% 52.4%;
+        --accent-foreground: 0 0% 100%;
+        --destructive: 0 84.2% 60.2%;
+        --destructive-foreground: 0 0% 98%;
+        --border: 7.0 44.3% 81.0%;
+        --input: 30 20% 91%;
+        --ring: 1.4 77.2% 55.3%;
+        --radius: 0.75rem;
+    }
+}
+
+@layer base {
+    * {
+        @apply border-border;
+    }
+    body {
+        @apply bg-background text-foreground;
+    }
+    h1, h2, h3, h4, h5, h6 {
+        font-family: 'Playfair Display', serif;
+    }
+}
+
+@layer base {
+    [data-debug-wrapper="true"] {
+        display: contents !important;
+    }
+
+    [data-debug-wrapper="true"] > * {
+        margin-left: inherit;
+        margin-right: inherit;
+        margin-top: inherit;
+        margin-bottom: inherit;
+        padding-left: inherit;
+        padding-right: inherit;
+        padding-top: inherit;
+        padding-bottom: inherit;
+        column-gap: inherit;
+        row-gap: inherit;
+        gap: inherit;
+        border-left-width: inherit;
+        border-right-width: inherit;
+        border-top-width: inherit;
+        border-bottom-width: inherit;
+        border-left-style: inherit;
+        border-right-style: inherit;
+        border-top-style: inherit;
+        border-bottom-style: inherit;
+        border-left-color: inherit;
+        border-right-color: inherit;
+        border-top-color: inherit;
+        border-bottom-color: inherit;
+    }
+}

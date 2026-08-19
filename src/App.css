@@ -1,0 +1,62 @@
+.App {
+  min-height: 100vh;
+}
+
+/* Hide scrollbar for horizontal scroll */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.grain-texture {
+  opacity: 0.4;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: url('https://grainy-gradients.vercel.app/noise.svg');
+}
+
+.product-card-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.product-card-hover:hover {
+  transform: translateY(-4px);
+}
+
+button, a {
+  transition: all 0.3s ease;
+}
+
+.deity-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1rem;
+  aspect-ratio: 4/5;
+  cursor: pointer;
+}
+
+.deity-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(229, 57, 53, 0.9), transparent 60%);
+  transition: opacity 0.3s ease;
+}
+
+.deity-card:hover::before {
+  opacity: 0.8;
+}
+
+.deity-card img {
+  transition: transform 0.5s ease;
+}
+
+.deity-card:hover img {
+  transform: scale(1.05);
+}

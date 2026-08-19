@@ -1,0 +1,374 @@
+/* ============================================================
+   GEETA PUJAN BHANDAR — Storefront design tokens ("Sacred Premium")
+   Ported from the finalized 22-screen Stitch canvas set
+   (geeta_pujan_bhandar_final_designs, post 6 correction rounds).
+
+   ARCHITECTURE: the core brand colors (primary, background, etc.)
+   were applied directly to the app's existing global shadcn tokens
+   in index.css — this IS the app's default brand, so every existing
+   Button/Input/Card automatically picks up the exact right red with
+   no JSX changes. This file adds the RICHER semantic surface tokens
+   the new designs need that shadcn's minimal palette doesn't have
+   (surface-container-high, on-surface-variant, outline-variant,
+   tertiary, error-container, etc.) under an `sf-*` prefix, plus the
+   full animation/interaction catalog from all 22 screens.
+
+   The one thing scoped rather than global: border radius. The new
+   storefront spec calls for a 4px "Soft Level 1" radius, but that's
+   a shared shadcn variable the admin console's dialogs also depend
+   on — and admin's own spec calls for 12px+. So --radius is
+   overridden only inside .storefront-shell, exactly mirroring how
+   admin-theme.css scopes its own tokens under .admin-shell.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=block');
+
+.storefront-shell .material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  vertical-align: middle;
+}
+.storefront-shell .material-symbols-outlined.fill {
+  font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+.storefront-shell {
+  --radius: 0.25rem; /* Soft Level 1 — 4px, per DESIGN.md. Scoped, not global. */
+  font-family: 'Plus Jakarta Sans', sans-serif;
+
+  /* ---- Extended surface/semantic tokens, not covered by shadcn's
+     base palette. RGB channel triples (not hex) so Tailwind opacity
+     modifiers work — same technique as admin-theme.css. ---- */
+  --sf-surface: 252 249 245;
+  --sf-surface-dim: 220 218 214;
+  --sf-surface-bright: 252 249 245;
+  --sf-surface-container-lowest: 255 255 255;
+  --sf-surface-container-low: 246 243 239;
+  --sf-surface-container: 240 237 234;
+  --sf-surface-container-high: 235 232 228;
+  --sf-surface-container-highest: 229 226 222;
+  --sf-on-surface: 28 28 26;
+  --sf-on-surface-variant: 91 64 61;
+  --sf-inverse-surface: 49 48 46;
+  --sf-inverse-on-surface: 243 240 236;
+  --sf-outline: 144 111 108;
+  --sf-outline-variant: 228 190 185;
+
+  --sf-primary: 229 57 53;
+  --sf-on-primary: 255 255 255;
+  --sf-primary-container: 219 50 47;
+  --sf-on-primary-container: 255 251 255;
+  --sf-inverse-primary: 255 180 172;
+
+  /* Two golds, both genuinely in use across the real screens (not a
+     mismatch to resolve — they do two different jobs):
+       sf-secondary / sf-secondary-container: the formal semantic
+         token (dark olive-gold / pale yellow-gold), used for trend
+         text, secondary badges, progress bars — wherever the Stitch
+         markup used text-secondary / bg-secondary-container.
+       sf-gold: literal Temple Gold (#D4AF37), used ad hoc for
+         decorative premium accents — card borders, the "Since 2000"
+         heritage badge, star ratings — wherever the markup used the
+         literal hex value directly. */
+  --sf-secondary: 115 92 0;
+  --sf-on-secondary: 255 255 255;
+  --sf-secondary-container: 254 214 91;
+  --sf-on-secondary-container: 116 92 0;
+  --sf-gold: 212 175 55;
+
+  --sf-tertiary: 101 90 76;
+  --sf-on-tertiary: 255 255 255;
+  --sf-tertiary-container: 126 115 99;
+  --sf-on-tertiary-container: 255 251 255;
+
+  --sf-error: 186 26 26;
+  --sf-on-error: 255 255 255;
+  --sf-error-container: 255 218 214;
+  --sf-on-error-container: 147 0 10;
+
+  --sf-background: 252 249 245;
+  --sf-on-background: 28 28 26;
+  --sf-surface-variant: 229 226 222;
+}
+
+/* ---- Font-role utilities (kept 1:1 with Stitch's font-* classes) ---- */
+.storefront-shell .font-display-lg,
+.storefront-shell .font-headline-lg,
+.storefront-shell .font-headline-md { font-family: 'Noto Serif', serif; font-weight: 700; }
+.storefront-shell .font-body-lg,
+.storefront-shell .font-body-md,
+.storefront-shell .font-label-sm { font-family: 'Plus Jakarta Sans', sans-serif; }
+
+/* "Since 2000" heritage badge — DESIGN.md: Noto Serif Italic + gold filigree */
+.storefront-shell .heritage-badge {
+  font-family: 'Noto Serif', serif;
+  font-style: italic;
+  font-weight: 600;
+  color: rgb(var(--sf-gold));
+}
+
+/* ============================================================
+   CARDS, CHIPS, BORDERS — DESIGN.md: "avoids heavy drop shadows in
+   favor of Tonal Layers and Low-contrast outlines... product cards
+   use a subtle Temple Gold bottom border (2px) to signify Sacred
+   Quality."
+   ============================================================ */
+.storefront-shell .sacred-card {
+  background: rgb(var(--sf-surface-container-lowest));
+  border-bottom: 2px solid rgb(var(--sf-gold) / 0.5);
+}
+
+/* High-elevation components (modals) — DESIGN.md: "soft, diffused
+   Ambient Shadow with a Kumkum Red tint at 5% opacity" */
+.storefront-shell .ambient-shadow {
+  box-shadow: 0 20px 40px -8px rgb(var(--sf-primary) / 0.05),
+              0 8px 16px -4px rgb(var(--sf-primary) / 0.04);
+}
+
+.storefront-shell .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+.storefront-shell .custom-scrollbar::-webkit-scrollbar-track { background: rgb(var(--sf-surface-container-low)); }
+.storefront-shell .custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgb(var(--sf-outline-variant));
+  border-radius: 10px;
+}
+
+/* Used on horizontally-scrolling rows (Home's category row, PDP's
+   thumbnail strip) where the scroll affordance itself should be
+   invisible. Was referenced in JSX but never defined anywhere —
+   scrollbars were showing where the design intends them hidden. */
+.storefront-shell .scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.storefront-shell .scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* ============================================================
+   PAGE-ENTRY ANIMATION — consolidated.
+   DESIGN.md is explicit: "Every page entry must utilize the silkFade
+   animation — a gentle, staggered upward slide (20px) combined with
+   a slow opacity fade-in (600ms, ease-out)." In practice, across the
+   22 screens this shipped under SIX different names with drifting
+   parameters — silkSlide (100px slide), riseIn, silkFadeIn (10px),
+   slide-and-fade (20px), divineFade, silkFadeAnim — only 6 of 22
+   files actually used the literal name "silkFade", and even that one
+   added a blur() the spec doesn't mention. Rather than port six
+   near-duplicate keyframes, this implements the spec exactly once
+   and applies it everywhere page-entry motion is needed.
+   ============================================================ */
+@keyframes sfPageEnter {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.storefront-shell .animate-page-enter {
+  opacity: 0;
+  animation: sfPageEnter 600ms ease-out forwards;
+}
+.storefront-shell .delay-100 { animation-delay: 100ms; }
+.storefront-shell .delay-200 { animation-delay: 200ms; }
+.storefront-shell .delay-300 { animation-delay: 300ms; }
+.storefront-shell .delay-400 { animation-delay: 400ms; }
+.storefront-shell .delay-500 { animation-delay: 500ms; }
+
+/* ============================================================
+   HOME — hero and carousel motion (01_home)
+   ============================================================ */
+@keyframes sfGoldShimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+.storefront-shell .animate-gold-shimmer {
+  background-size: 200% auto;
+  animation: sfGoldShimmer 3s linear infinite;
+}
+
+@keyframes sfKenBurns {
+  from { transform: scale(1); }
+  to   { transform: scale(1.15); }
+}
+.storefront-shell .animate-ken-burns {
+  animation: sfKenBurns 20s ease-out forwards;
+}
+
+@keyframes sfCrossfade {
+  0% { opacity: 0.8; }
+  100% { opacity: 1; }
+}
+.storefront-shell .animate-crossfade {
+  animation: sfCrossfade 4s ease-in-out infinite alternate;
+}
+
+@keyframes sfScroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-100%); }
+}
+.storefront-shell .animate-marquee-scroll {
+  animation: sfScroll 30s linear infinite;
+}
+
+/* ============================================================
+   LOADING SKELETONS — 02_products, 22_loading_skeletons
+   ============================================================ */
+@keyframes sfSkeletonShimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+.storefront-shell .animate-skeleton {
+  background: linear-gradient(
+    90deg,
+    rgb(var(--sf-surface-container-low)) 25%,
+    rgb(var(--sf-surface-container-high)) 37%,
+    rgb(var(--sf-surface-container-low)) 63%
+  );
+  background-size: 200% 100%;
+  animation: sfSkeletonShimmer 1.6s ease-in-out infinite;
+}
+/* Gold-tinted variant — 22_loading_skeletons specifically uses a
+   gold sweep rather than the neutral gray one used elsewhere. */
+.storefront-shell .animate-skeleton-gold {
+  background: linear-gradient(
+    90deg,
+    rgb(var(--sf-surface-container-low)) 20%,
+    rgb(var(--sf-gold) / 0.25) 50%,
+    rgb(var(--sf-surface-container-low)) 80%
+  );
+  background-size: 1000px 100%;
+  animation: sfSkeletonShimmer 1.8s ease-in-out infinite;
+}
+
+/* ============================================================
+   PRODUCT DETAIL — add-to-cart fly + low-stock pulse (03_product_detail)
+   ============================================================ */
+@keyframes sfShimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.storefront-shell .animate-shimmer-sweep {
+  background-size: 200% 100%;
+  animation: sfShimmer 2s linear infinite;
+}
+
+@keyframes sfFlyToCart {
+  0%   { transform: scale(1); opacity: 1; }
+  100% { transform: translate(var(--fly-x, 100vw), var(--fly-y, -100vh)) scale(0); opacity: 0; }
+}
+.storefront-shell .animate-fly-to-cart {
+  animation: sfFlyToCart 700ms ease-in forwards;
+}
+
+@keyframes sfLowStockPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.7; transform: scale(1.02); }
+}
+.storefront-shell .animate-low-stock-pulse {
+  animation: sfLowStockPulse 2s ease-in-out infinite;
+}
+
+/* ============================================================
+   CART — confetti on discount applied (04_cart)
+   ============================================================ */
+@keyframes sfConfettiFall {
+  0%   { transform: translateY(0) rotate(0); opacity: 1; }
+  100% { transform: translateY(100px) rotate(720deg); opacity: 0; }
+}
+.storefront-shell .animate-confetti {
+  animation: sfConfettiFall 900ms ease-out forwards;
+}
+
+/* ============================================================
+   ORDER CONFIRMATION — success sweep (06_order_confirmation)
+   ============================================================ */
+@keyframes sfShimmerSweep {
+  0%   { transform: translateX(-100%) skewX(-20deg); }
+  100% { transform: translateX(200%) skewX(-20deg); }
+}
+.storefront-shell .animate-success-sweep {
+  animation: sfShimmerSweep 1.2s ease-out;
+}
+
+/* ============================================================
+   WISHLIST — heart unfill on remove (09_wishlist)
+   ============================================================ */
+@keyframes sfHeartUnfill {
+  0%   { transform: scale(1.2); color: rgb(var(--sf-primary)); }
+  50%  { transform: scale(0.8); }
+  100% { transform: scale(1); color: rgb(var(--sf-on-surface-variant)); }
+}
+.storefront-shell .animate-heart-unfill {
+  animation: sfHeartUnfill 400ms ease-in-out forwards;
+}
+
+/* ============================================================
+   OTP VERIFICATION — error shake, resend spinner (12_otp_verification)
+   ============================================================ */
+@keyframes sfShake {
+  0%, 100%            { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80%      { transform: translateX(5px); }
+}
+.storefront-shell .animate-shake {
+  animation: sfShake 500ms ease-in-out;
+}
+.storefront-shell .animate-spin-slow {
+  animation: spin 1s linear infinite; /* Tailwind's built-in @keyframes spin covers this */
+}
+
+/* ============================================================
+   SEARCH — result reveal, autosuggest dropdown (17, 18)
+   ============================================================ */
+@keyframes sfSlideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.storefront-shell .animate-slide-down {
+  animation: sfSlideDown 200ms ease-out forwards;
+}
+
+/* ============================================================
+   HOVER STATES — shared across nearly every screen
+   ============================================================ */
+.storefront-shell .card-hover {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
+}
+.storefront-shell .card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px -8px rgb(var(--sf-primary) / 0.08);
+}
+
+.storefront-shell .row-interactive {
+  transition: transform 0.1s ease-out;
+}
+.storefront-shell .row-interactive:active {
+  transform: scale(0.99);
+}
+
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .storefront-shell .animate-page-enter,
+  .storefront-shell .animate-gold-shimmer,
+  .storefront-shell .animate-ken-burns,
+  .storefront-shell .animate-crossfade,
+  .storefront-shell .animate-marquee-scroll,
+  .storefront-shell .animate-skeleton,
+  .storefront-shell .animate-skeleton-gold,
+  .storefront-shell .animate-shimmer-sweep,
+  .storefront-shell .animate-fly-to-cart,
+  .storefront-shell .animate-low-stock-pulse,
+  .storefront-shell .animate-confetti,
+  .storefront-shell .animate-success-sweep,
+  .storefront-shell .animate-heart-unfill,
+  .storefront-shell .animate-shake,
+  .storefront-shell .animate-spin-slow,
+  .storefront-shell .animate-slide-down,
+  .storefront-shell .card-hover,
+  .storefront-shell .row-interactive {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transform: none !important;
+  }
+  .storefront-shell .animate-page-enter { opacity: 1; }
+}
